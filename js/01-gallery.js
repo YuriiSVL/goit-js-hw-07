@@ -5,7 +5,9 @@ const galleryRef = document.querySelector(".gallery");
 const galleryMarkup = createGalleryMarkup(galleryItems);
 
 galleryRef.addEventListener("click", onImageClick);
-galleryRef.innerHTML = galleryMarkup;
+galleryRef.insertAdjacentHTML("beforeend", galleryMarkup);
+
+let modal;
 
 function createGalleryMarkup(items) {
   return items
@@ -23,21 +25,21 @@ function createGalleryMarkup(items) {
     })
     .join("");
 }
-
 function onImageClick(e) {
   if (e.target.nodeName !== "IMG") return;
   e.preventDefault();
 
-  const modal = basicLightbox.create(
+  modal = basicLightbox.create(
     `
 		<img src="${e.target.dataset.source}", alt="${e.target.alt}">
 	`
   );
   modal.show(document.addEventListener("keydown", onEscPress));
+}
 
-  function onEscPress(e) {
-    if (e.code === "Escape") {
-      modal.close(document.removeEventListener("keydown", onEscPress));
-    }
+function onEscPress(e) {
+  if (e.code === "Escape") {
+    modal.close(document.removeEventListener("keydown", onEscPress));
+    console.log(e.code);
   }
 }
