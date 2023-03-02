@@ -32,14 +32,20 @@ function onImageClick(e) {
   modal = basicLightbox.create(
     `
 		<img src="${e.target.dataset.source}", alt="${e.target.alt}">
-	`
+	`,
+    {
+      onShow: () => document.addEventListener("keydown", onEscPress),
+      onClose: () => document.removeEventListener("keydown", onEscPress),
+    }
   );
-  modal.show(document.addEventListener("keydown", onEscPress));
+  // modal.show(document.addEventListener("keydown", onEscPress));
+  modal.show();
 }
 
 function onEscPress(e) {
   if (e.code === "Escape") {
-    modal.close(document.removeEventListener("keydown", onEscPress));
+    modal.close();
+    // modal.close(document.removeEventListener("keydown", onEscPress));
     console.log(e.code);
   }
 }
